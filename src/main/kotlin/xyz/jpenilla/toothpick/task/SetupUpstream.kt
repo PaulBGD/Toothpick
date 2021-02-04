@@ -24,6 +24,7 @@
 package xyz.jpenilla.toothpick.task
 
 import org.gradle.api.tasks.TaskAction
+import shadow.org.codehaus.plexus.util.Os
 import xyz.jpenilla.toothpick.bashCmd
 import xyz.jpenilla.toothpick.gitHash
 
@@ -38,7 +39,7 @@ public open class SetupUpstream : ToothpickTask() {
       && upstreamDir.resolve("subprojects/server.gradle.kts").exists()
       && upstreamDir.resolve("subprojects/api.gradle.kts").exists()
     ) {
-      "./gradlew applyPatches"
+      if (Os.isFamily(Os.FAMILY_WINDOWS)) "gradlew.bat applyPatches" else "./gradlew applyPatches"
     } else {
       error("Don't know how to setup upstream!")
     }
